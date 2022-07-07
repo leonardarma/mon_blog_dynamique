@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+   <h1>Connexion</h1>
+   <div id="connexion">
+      {% if message_return %}
+         <p>{{message_return}}</p>
+      {% endif %}
+      <form method="post" action="{% url 'connexion' %}" novalidate>
+         {% csrf_token %}
+         {{ form.non_field_errors }}
+         
+            {% for formline in form %}
+               <div>
+                  {{ formline.errors }}
+                  <label for="{{ formline.id_for_label }}" class="inputChamp"></li>
+                  {{ formline }}
+               </div>
+            {% endfor %}
+            <input type="submit" value="Je me connecte" class="submitBtn" />
+         
+      </form>
+   </div>
+   <div id="erreur">
+      <p>
+         {% if form.errors %}
+            {% for formline in form %}
+               {% for error in formline.errors %}
+                  <div>{{formline.label}} : {{error|escape}}</div>
+               {% endfor %}
+            {% endfor %}
+         {% endif %}
+         {% if form.non.field.errors %}
+            {% for formline in form.non.field.errors %}
+               <div>{{error|escape}}</div>
+            {% endfor %}
+         {% endif %}
+         
+      </p>
+   </div>
+   <div id="erreur">
+      <p> Erreurs </p>
+   </div>
+{% endblock %}

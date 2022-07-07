@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}" />
+    <title>{% block title%}Mon Blog de Recettes{% endblock %}</title>
+</head>
+
+<body>
+    <header id="header"><a href='{% url "index" %}'>
+            <h1 id="titreBlog">Mon Blog de Recettes</h1>
+        </a>
+        <div style="width:300px;margin:20px auto;">Bienvenue sur le blog de Sharpy</div>
+        <nav id="loginBar">
+            {% if membr %}
+            <div>
+                Bienvenue {{membr.pseudo}}
+            </div>
+            <div class="login"><a class="primaryBtn login" href='{% url "deconnexion" %}'>Deconnexion</a></div>
+
+            {% else %}
+            <div class="login"><a class="primaryBtn login" href='{% url "inscription" %}'>Inscription</a></div>
+            <div class="login"><a class="primaryBtn login" href='{% url "connexion" %}'>Connexion</a></div>
+            {% endif %}
+        </nav>
+    </header>
+
+    <div id="global">
+        {% block categorie_nav %}
+        <div id="categorie">
+            {% if categories %}
+            <ul>
+                {% for categorie in categories %}
+                        <li {%if idCategorie == categorie.id %}class = 'selected'{% endif %}><a href='{% url "categorie" categorie.id %}'>{{categorie}}</a></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>No categories are available</p>
+            {% endif %}
+        </div>
+        {% endblock %}
+
+        {% block content%}
+        {% endblock %}
+    </div>
+
+    <footer id="piedBlog"> Blog réalisé par Sharpy</footer>
+</body>
+
+</html>

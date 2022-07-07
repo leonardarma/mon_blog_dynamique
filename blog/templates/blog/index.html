@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+<article>
+   {% if list_recette %}
+      {% for recette in list_recette %}
+      <header>
+         <img class="imgRecette" src="{{recette.image.url}}" width="300px" height="242px" alt="{{recette.name}}"/>
+            <a href="recette/{{recette.id}}">
+               <h1 class="titreRecette">
+                  {{recette.name}}
+               </h1>
+            </a>
+            <time>
+               {{recette.pub_date}}
+            </time>
+      </header>
+      <p>{{recette.describe}}</p>
+      {% endfor %}
+   {% else %}
+      <p>No Recettes are available.</p>
+   {% endif %}
+</article>
+
+{% endblock %}

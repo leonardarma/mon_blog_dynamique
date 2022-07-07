@@ -1,0 +1,72 @@
+{% extends 'blog/base.html' %}
+
+{% block categorie_nav %}
+{% endblock %}
+
+{% block content %}
+
+<article>
+   <header>
+      <img class="imgRecette" src="{{recette.image.url}}" alt="{{recette.name}}" />
+      <h1 class="titreRecette">
+         {{recette.name}}
+      </h1>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star checked"></span>
+      <span class="fa fa-star"></span>
+      </br>
+      <time>
+      {{recette.pub_date}}
+      </time>
+   </header>
+   <p>
+      {{recette.describe}}
+   </p>
+</article>
+<hr />
+<header>
+   <h2 id="titreIngredient">
+      Ingrédients
+   </h2>
+   <ul>
+      {% for ingredient in recette.ingredients.all %}
+         <li>{{ ingredient.quantity }} {{ ingredient.unite }} {{ ingredient }}</li>
+      {% endfor %}
+   </ul>
+</header>
+<h2 id="titreCommentaire">
+   Commentaires
+</h2>
+
+{% if commentaires %}
+   {% for comment in commentaires %}
+      <div class="divCommentaire">
+         <p>{{comment.autor}} : {{comment.content}}</p>
+         <p> Note : {{comment.note}}/5 </p>
+         <p>
+            {{comment.date_post}}
+         </p>
+         <hr>
+      </div>
+   {% endfor %}
+{% else %}
+   <p>Pas encore de commentaires pour cette recette..</p>
+{% endif %}
+
+
+<form method="post" action="{{recette.id}}" >
+   {% csrf_token %}
+   <ul>
+      {% for formline in form %}
+         <li>{{formline.label}}{{formline}}</li>
+      {% endfor %}
+   </ul>
+   <input type="submit" value="Commenter" class="submitBtn" />
+</form>
+<div id="erreur">
+   <p> Erreurs </p>
+</div>
+
+{% endblock %}
