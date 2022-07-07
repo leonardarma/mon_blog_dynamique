@@ -3,6 +3,9 @@ from django.shortcuts import get_object_or_404, render
 from .models import Recette, Categorie, Membre, Commentaire
 from .forms import ConnexionForm, InscriptionForm, CommentaireForm
 from django.contrib.auth.hashers import make_password, check_password
+from django.db.models import Avg
+from math import floor
+
 
 
 def index(request):
@@ -36,11 +39,15 @@ def recette(request, recette_id):
             return HttpResponseRedirect(f'/recette/{recette_id}')
     else:
         form = CommentaireForm()
+    
+    note_int = floor(recette.comments.all().aggregate(Avg('note'))['note__avg'])
+    note = [ i<=note_int for i in range(1,6)]
     context = {
         'form':form,
         'commentaires':commentaires,
         'recette':recette,
-        'categories':categories
+        'categories':categories,
+        'note' : note
         }
             
     return render(request, 'blog/recette.html', context)

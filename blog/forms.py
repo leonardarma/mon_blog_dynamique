@@ -30,7 +30,7 @@ class InscriptionForm(forms.Form):
 class CommentaireForm(forms.Form):
     autor = forms.CharField(label='Your name', max_length=100)
     content = forms.CharField(widget=forms.Textarea)
-    note = forms.IntegerField(min_value=0, max_value=5)
+    note = forms.IntegerField(min_value=1, max_value=5)
     
 class ConnexionForm(forms.Form):
     pseudo = forms.CharField(label="Your Pseudo", max_length=100, widget=forms.TextInput(attrs={'placeholder':"Votre pseudo *", "class":'inputChamp'}))
